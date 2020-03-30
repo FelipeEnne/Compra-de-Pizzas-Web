@@ -3,6 +3,8 @@ let modalQt = 1
 const c = (el) => document.querySelector(el);
 const cs = (el) => document.querySelectorAll(el);
 
+
+//list pizza
 pizzaJson.map((item, index)=>{
     let pizzaItem = c('.models .pizza-item').cloneNode(true);
 
@@ -17,7 +19,8 @@ pizzaJson.map((item, index)=>{
     pizzaItem.querySelector('a').addEventListener('click', (e)=>{
         e.preventDefault();
         let key = e.target.closest('.pizza-item').getAttribute('data-key')
-        
+        modalQt = 1;
+
         c('.pizzaBig img').src = pizzaJson[key].img;
         c('.pizzaInfo h1').innerHTML = pizzaJson[key].name;
         c('.pizzaInfo--desc').innerHTML = pizzaJson[key].description;
@@ -31,6 +34,8 @@ pizzaJson.map((item, index)=>{
             size.querySelector('span').innerHTML = pizzaJson[key].sizes[sizeIndex]
         });
 
+        c('.pizzaInfo--qt').innerHTML = modalQt
+
         c('.pizzaInfo--actualPrice').innerHTML = ` R$ ${pizzaJson[key].price.toFixed(2)}`;
 
         c('.pizzaWindowArea').style.opacity = 0;
@@ -43,4 +48,17 @@ pizzaJson.map((item, index)=>{
     
     
     c('.pizza-area').append(pizzaItem);
+});
+
+
+//modal events
+function closeModal() {
+    c('.pizzaWindowArea').style.opacity = 0;
+    setTimeout(()=>{
+        c('.pizzaWindowArea').style.display = 'none';
+    }, 200);
+}
+
+cs('.pizzaInfo--cancelButton, .pizzaInfo--cancelMobileButton').forEach(i => {
+    i.addEventListener('click', closeModal);
 });

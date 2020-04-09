@@ -1,4 +1,6 @@
-let modalQt = 1
+let modalQt = 1;
+let cart =[];
+let modalKey;
 
 const c = (el) => document.querySelector(el);
 const cs = (el) => document.querySelectorAll(el);
@@ -8,7 +10,7 @@ const cs = (el) => document.querySelectorAll(el);
 pizzaJson.map((item, index)=>{
     let pizzaItem = c('.models .pizza-item').cloneNode(true);
 
-    pizzaItem.setAttribute('data-key',index)
+    pizzaItem.setAttribute('data-key',index);
 
     pizzaItem.querySelector('.pizza-item--img img').src = item.img;
     pizzaItem.querySelector('.pizza-item--price').innerHTML = ` R$ ${item.price.toFixed(2)}`;
@@ -20,6 +22,7 @@ pizzaJson.map((item, index)=>{
         e.preventDefault();
         let key = e.target.closest('.pizza-item').getAttribute('data-key')
         modalQt = 1;
+        modalKey = key;
 
         c('.pizzaBig img').src = pizzaJson[key].img;
         c('.pizzaInfo h1').innerHTML = pizzaJson[key].name;
@@ -80,4 +83,17 @@ cs('.pizzaInfo--size').forEach((size, sizeIndex)=>{
         c('.pizzaInfo--size.selected').classList.remove('selected');
         size.classList.add('selected')
     });
+});
+
+c('.pizzaInfo--addButton').addEventListener('click',()=>{
+
+    let size =  parseInt(c('.pizzaInfo--size.selected').getAttribute('data-key'));
+
+    cart.push({
+        id:pizzaJson[modalKey].id,
+        size,
+        qt:modalQt
+    });
+
+    closeModal();
 });

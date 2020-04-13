@@ -89,11 +89,21 @@ c('.pizzaInfo--addButton').addEventListener('click',()=>{
 
     let size =  parseInt(c('.pizzaInfo--size.selected').getAttribute('data-key'));
 
-    cart.push({
-        id:pizzaJson[modalKey].id,
-        size,
-        qt:modalQt
-    });
+    let identify = pizzaJson[modalKey].id+"@"+size;
+
+    let key = cart.findIndex((item) => item.identify == identify);
+
+    if (key > -1) {
+        cart[key].qt += modalQt;
+    } else {
+        cart.push({
+            identify,
+            id:pizzaJson[modalKey].id,
+            size,
+            qt:modalQt
+        });
+    }
+    
 
     closeModal();
 });
